@@ -24,7 +24,8 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <Content Include="templates\domainController.json" />
-    <Content Include="deploy.json" />
+    <Content Include="azuredeploy.json" />
+    <Content Include="azuredeploy.parameters.json" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>

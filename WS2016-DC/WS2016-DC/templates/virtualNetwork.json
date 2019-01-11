@@ -19,10 +19,10 @@
     "vNETInfo": {
       "vNETName": "[concat(parameters('envName'),'-vn01')]",
       "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
-      "vNETSub01Name": "[concat(parameters('envName'),'-App-Subnet')]",
-      "vNETSub02Name": "[concat(parameters('envName'),'-Man-Subnet')]",
+      "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
+      "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
       "vNETSub01": "[concat(parameters('vNETAddress'),'.0/25')]",
-      "vNETSub02": "[concat(parameters('vNETAddress'),'.0/26')]"
+      "vNETSub02": "[concat(parameters('vNETAddress'),'.128/28')]"
     },
     "resourceLocation": "[resourceGroup().location]"
   },
@@ -44,17 +44,15 @@
             "properties": {
               "addressPrefix": "[variables('vNETInfo').vNETSub01]"
             }
-          },
-          {
-            "name": "[variables('vNETInfo').vNETSub02Name]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
-            }
           }
         ]
       }
     }
   ],
   "outputs": {
+    "vnet01subnet01": {
+      "type": "string",
+      "value": "[variables('vNETInfo').vNETSub01]"
+    }
   }
 }

@@ -1,0 +1,51 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "envName": {
+      "defaultValue": "MSFT",
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your environment name. It might be like this : Microsoft > msft"
+      }
+    },
+    "vNETAddress": {
+      "defaultValue": "172.10.0",
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
+      }
+    }
+  },
+  "variables": {
+    "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/",
+    "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
+    "domainControllerUrl": "[concat(variables('templateBaseUrl'), 'domainController.json')]",
+    "resourceLocation": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "1_virtualNetwork",
+      "apiVersion": "2017-05-10",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('virtualNetworkUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "envName": {
+            "value": "[parameters('envName')]"
+          },
+          "vNETAddress": {
+            "value": "[parameters('vNETAddress')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

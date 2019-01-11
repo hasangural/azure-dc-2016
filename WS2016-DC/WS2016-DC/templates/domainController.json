@@ -34,7 +34,7 @@
     "vmPIPName": "[concat(parameters('envName'),'pip-01')]",
     "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
     "virtualNetworkId": "[resourceId('Microsoft.Network/virtualNetworks', concat(parameters('envName'),'-vn-01'))]",
-    "virtualNetworkSubnetId": "[resourceId('Microsoft.Network/virtualNetworks',concat(parameters('envName'),'-vn-01', '/', parameters('envName') , '-Application-Subnet'))]",
+    "virtualNetworkSubnetId": "Microsoft.Network/virtualNetworks/MSFT-vn01/subnets/MSFT-Application-Subnet",
     "vMName": "[concat(parameters('envName'),'dc-01')]",
     "resourceLocation": "[resourceGroup().location]"
 

@@ -1,0 +1,60 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "envName": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your environment name. It might be like this : Microsoft > msft"
+      }
+    },
+    "vNETAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
+      }
+    }
+  },
+  "variables": {
+    "vNETInfo": {
+      "vNETName": "[concat(parameters('envName'),'-vn01')]",
+      "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
+      "vNETSub01Name": "[concat(parameters('envName'),'-App-Subnet')]",
+      "vNETSub02Name": "[concat(parameters('envName'),'-Man-Subnet')]",
+      "vNETSub01": "[concat(parameters('vNETAddress'),'.0/25')]",
+      "vNETSub02": "[concat(parameters('vNETAddress'),'.0/26')]"
+    },
+    "resourceLocation": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2018-06-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('vNETInfo').vNETName]",
+      "location": "[variables('resourceLocation')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vNETInfo').vNETAddress]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('vNETInfo').vNETSub01Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub02Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

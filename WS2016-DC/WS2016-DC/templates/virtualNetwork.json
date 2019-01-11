@@ -17,7 +17,7 @@
   },
   "variables": {
     "vNETInfo": {
-      "vNETName": "[concat(parameters('envName'),'-vn01')]",
+      "vNETName": "[concat(parameters('envName'),'-vn-01')]",
       "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
       "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
       "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
@@ -43,6 +43,12 @@
             "name": "[variables('vNETInfo').vNETSub01Name]",
             "properties": {
               "addressPrefix": "[variables('vNETInfo').vNETSub01]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub02Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
             }
           }
         ]

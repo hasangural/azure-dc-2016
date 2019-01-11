@@ -15,6 +15,24 @@
       "metadata": {
         "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
       }
+    },
+    "userName": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your windows user name. It shoudl be different Administrator: Mike"
+      }
+    },
+    "userPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Please provide your windows user's password. It shoudl be different Administrator: Mike!s201"
+      }
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your domain name. It might be like this : msft.com "
+      }
     }
   },
   "variables": {
@@ -32,6 +50,27 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
+          "uri": "[variables('domainControllerUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "envName": {
+            "value": "[parameters('envName')]"
+          },
+          "vNETAddress": {
+            "value": "[parameters('vNETAddress')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "2_virtualMachine_DC",
+      "apiVersion": "2017-05-10",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
           "uri": "[variables('virtualNetworkUrl')]",
           "contentVersion": "1.0.0.0"
         },
@@ -41,6 +80,15 @@
           },
           "vNETAddress": {
             "value": "[parameters('vNETAddress')]"
+          },
+          "userName": {
+            "value": "[parameters('userName')]"
+          },
+          "userPassword": {
+            "value": "[parameters('userPassword')]"
+          },
+          "domainName": {
+            "value": "[parameters('domainName')]"
           }
         }
       }

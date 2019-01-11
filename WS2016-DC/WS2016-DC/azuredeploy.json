@@ -36,9 +36,9 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/",
-    "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
-    "domainControllerUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/domainController.json",
+    "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addvNET/WS2016-DC/WS2016-DC/templates/",
+    "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addvNET/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
+    "domainControllerUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addvNET/WS2016-DC/WS2016-DC/templates/domainController.json",
     "resourceLocation": "[resourceGroup().location]"
   },
   "resources": [

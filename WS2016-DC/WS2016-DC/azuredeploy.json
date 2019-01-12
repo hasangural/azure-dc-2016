@@ -36,9 +36,9 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/templates",
-    "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
-    "domainControllerUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/templates/domainController.json",
+    "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/templates/",
+    "virtualNetworkUrl": "[concat(variables('templateBaseUrl'),'domainController.json')]",
+    "domainControllerUrl": "[concat(variables('templateBaseUrl'),'virtualNetwork.json')]",
     "DSC": {
       "DSC_domain": {
         "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/DSC/domain_build.zip"

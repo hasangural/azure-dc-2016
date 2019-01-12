@@ -221,23 +221,27 @@
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
           ]
-        }
-      ]
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('build_DC01').vmName,'/BGInfo')]",
-      "location": "[variables('build_DC01').resourceLocation]",
-      "properties": {
-        "publisher": "Microsoft.Compute",
-        "type": "BGInfo",
-        "typeHandlerVersion": "2.1",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "Properties": [
+        },
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(variables('build_DC01').vmName,'/BGInfo')]",
+          "location": "[variables('build_DC01').resourceLocation]",
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "BGInfo",
+            "typeHandlerVersion": "2.1",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "Properties": [
+              ]
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
           ]
         }
-      }
+
+      ]
     },
     {
       "apiVersion": "2018-06-01",

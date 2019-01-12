@@ -36,9 +36,14 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/",
-    "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
-    "domainControllerUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/master/WS2016-DC/WS2016-DC/templates/domainController.json",
+    "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates",
+    "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
+    "domainControllerUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates/domainController.json",
+    "DSC": {
+      "DSC_domain": {
+        "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/DSC/domain_build.zip"
+      }
+    },
     "resourceLocation": "[resourceGroup().location]"
   },
   "resources": [
@@ -67,7 +72,6 @@
       "type": "Microsoft.Resources/deployments",
       "name": "2_virtualMachine_DC",
       "apiVersion": "2017-05-10",
-      "dependsOn": [],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -78,6 +82,9 @@
           "envName": {
             "value": "[parameters('envName')]"
           },
+          "vNETAddress": {
+            "value": "[parameters('vNETAddress')]"
+          },
           "userName": {
             "value": "[parameters('userName')]"
           },
@@ -86,9 +93,15 @@
           },
           "domainName": {
             "value": "[parameters('domainName')]"
+          },
+          "DSC_domain_1_URL": {
+            "value": "[variables('DSC')['DSC_domain'].Link]"
           }
         }
-      }
+      },
+      "dependsOn": [
+        "1_virtualNetwork"
+      ]
     }
   ],
   "outputs": {

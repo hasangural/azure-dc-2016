@@ -8,6 +8,12 @@
         "description": "Please provide your environment name. It might be like this : Microsoft > msft"
       }
     },
+    "vNETAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
+      }
+    },
     "domainName": {
       "type": "string",
       "metadata": {
@@ -25,25 +31,47 @@
       "metadata": {
         "description": "Please provide your windows user's password. It shoudl be different Administrator: Mike!s201"
       }
+    },
+    "DSC_domain_1_URL": {
+      "type": "string"
     }
   },
   "variables": {
-    "vmNicName": "[concat(parameters('envName'),'nic-01')]",
-    "vmNSGName": "[concat(parameters('envName'),'nsg-01')]",
-    "vmNSGId": "[resourceid('Microsoft.Network/virtualNetworks',concat(parameters('envName'),'-nsg-01'))]",
-    "vmPIPName": "[concat(parameters('envName'),'pip-01')]",
-    "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
-    "virtualNetworkId": "[resourceId('Microsoft.Network/virtualNetworks/', concat(parameters('envName'), '/' ,'-vn-01'))]",
-    "virtualNetworkSubnetId": "[resourceid('Microsoft.Network/virtualNetworks/',concat(parameters('envName'),'-vn-01'), concat(parameters('envName') , '-Application-Subnet'))]",
-    "vMName": "[concat(parameters('envName'),'dc-01')]",
-    "resourceLocation": "[resourceGroup().location]"
+    "vnetID": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks/',variables('vNETInfo').vNETName)]",
+    "build_DC01": {
+      "vmSize": "Standard_F2s",
+      "vMName": "[concat(parameters('envName'),'-dc-01')]",
+      "vmPIPName": "[concat(parameters('envName'),'-pip-01')]",
+      "vmNicName": "[concat(parameters('envName'),'-nic-01')]",
+      "vmNicIP": "[concat(parameters('vNETAddress'), '.4')]",
+      "vmNSGName": "[concat(parameters('envName'),'-nsg-01')]",
+      "VMDscName": "CreateADPDC",
+      "VmDscArchive": "[parameters('DSC_domain_1_URL')]",
+      "VmDscScript": "createadpdc.ps1",
+      "VmDscFunction": "\\CreateADPDC",
+      "vmNSGId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/networkSecurityGroups/MSFT-nsg-01",
+      "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), '-pip-01'))]",
+      "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
+      "virtualNetworkId": "[variables('vnetID')]",
+      "virtualNetworkSubnetId": "[concat(variables('vnetID'),'/subnets/',concat(parameters('envName'), '-Application-Subnet'))]",
+      "resourceLocation": "[resourceGroup().location]"
+    },
+    "vNETInfo": {
+      "vNETName": "[concat(parameters('envName'),'-vn-01')]",
+      "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
+      "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
+      "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
+      "vNETSub01": "[concat(parameters('vNETAddress'),'.0/25')]",
+      "vNETSub02": "[concat(parameters('vNETAddress'),'.128/28')]",
+      "resourceLocation": "[resourceGroup().location]"
 
+    }
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('vmDiagStorageName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vmDiagStorageName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "apiVersion": "2018-07-01",
       "sku": {
         "name": "Standard_LRS"
@@ -52,10 +80,10 @@
       "properties": {}
     },
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2018-10-01",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('vmNSGName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vmNSGName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "properties": {
         "securityRules": [
           {
@@ -77,56 +105,54 @@
     },
     {
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('vmPIPName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vmPIPName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "apiVersion": "2018-10-01",
       "properties": {
         "publicIPAllocationMethod": "Static"
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-11-01",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('vmNicName')]",
-      "location": "[variables('resourceLocation')]",
-      "dependsOn": [
-        "[variables('virtualNetworkId')]"
-      ],
+      "name": "[variables('build_DC01').vmNicName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipConfigDC",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('vmPIPName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('build_DC01').vmPIPName)]"
               },
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[variables('build_DC01').vmNicIP]",
               "subnet": {
-                "id": "[variables('virtualNetworkSubnetId')]"
-              },
-              "networkSecurityGroup": {
-                "id": "[variables('vmNSGId')]"
+                "id": "[variables('build_DC01').virtualNetworkSubnetId]"
               }
             }
           }
         ]
-      }
+      },
+      "dependsOn": [
+        "[variables('build_DC01').vmPIPId]"
+      ]
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vMName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "apiVersion": "2018-10-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/', variables('vmDiagStorageName'))]",
-        "[resourceId('Microsoft.Network/networkInterfaces/', variables('vmNicName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts/', variables('build_DC01').vmDiagStorageName)]",
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmNicName)]"
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_A2"
+          "vmSize": "[variables('build_DC01').vmSize]"
         },
         "osProfile": {
-          "computerName": "[variables('vmName')]",
+          "computerName": "[variables('build_DC01').vMName]",
           "adminUsername": "[parameters('userName')]",
           "adminPassword": "[parameters('userPassword')]"
         },
@@ -138,12 +164,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat(parameters('envName'),'OsDisk-01')]",
+            "name": "[concat(parameters('envName'),'-OsDisk-01')]",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "[concat(parameters('envName'),'DataDisk-01')]",
+              "name": "[concat(parameters('envName'),'-DataDisk-01')]",
               "diskSizeGB": 10,
               "lun": 0,
               "createOption": "Empty"
@@ -153,17 +179,106 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('vmNicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('build_DC01').vmNicName)]"
             }
           ]
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('vmDiagStorageName'))).primaryEndpoints.blob]"
+            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('build_DC01').vmDiagStorageName)).primaryEndpoints.blob]"
           }
         }
-      }
+      },
+      "resources": [
+        {
+          "type": "extensions",
+          "name": "AD_DSC",
+          "apiVersion": "2016-04-30-preview",
+          "location": "[variables('build_DC01').resourceLocation]",
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.19",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "[parameters('DSC_domain_1_URL')]",
+              "configurationFunction": "[concat(variables('build_DC01').VMDscScript, variables('build_DC01').VMDscFunction)]",
+              "properties": {
+                "domainName": "[parameters('domainName')]",
+                "adminCreds": {
+                  "userName": "[parameters('userName')]",
+                  "password": "PrivateSettingsRef:Admin_Password"
+                }
+              }
+            },
+            "protectedSettings": {
+              "items": {
+                "Admin_Password": "[parameters('userPassword')]"
+              }
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
+          ]
+        }
+
+      ]
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('build_DC01').vMName,'/BGInfo')]",
+      "location": "[variables('build_DC01').resourceLocation]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('build_DC01').VMName)]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "BGInfo",
+        "typeHandlerVersion": "2.1",
+        "settings": {},
+        "protectedSettings": null
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
+      ]
+    },
+    {
+      "apiVersion": "2018-06-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('vNETInfo').vNETName]",
+      "location": "[variables('vNETInfo').resourceLocation]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vNETInfo').vNETAddress]"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": [
+            "[variables('build_DC01').vmNicIP]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('vNETInfo').vNETSub01Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub02Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
+      ]
+
     }
   ],
   "outputs": {}

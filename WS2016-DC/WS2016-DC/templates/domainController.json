@@ -109,10 +109,10 @@
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('build_DC01').virtualNetworkSubnetId]"
-              },
-              "networkSecurityGroup": {
-                "id": "[variables('build_DC01').vmNSGId]"
               }
+            },
+            "networkSecurityGroup": {
+              "id": "[variables('build_DC01').vmNSGId]"
             }
           }
         ]

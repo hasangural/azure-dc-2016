@@ -37,7 +37,7 @@
     }
   },
   "variables": {
-    "vnetID": "[resourceId(concat(resourceGroup().name),'Microsoft.Network/virtualNetworks/',variables('vNETInfo').vNETName)]",
+    "vnetID": "[resourceId(concat(resourceGroup().name, '/'),'Microsoft.Network/virtualNetworks/',variables('vNETInfo').vNETName)]",
     "build_DC01": {
       "vmSize": "Standard_F2s",
       "vMName": "[concat(parameters('envName'),'-dc-01')]",

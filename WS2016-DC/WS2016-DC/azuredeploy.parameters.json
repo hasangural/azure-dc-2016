@@ -9,10 +9,10 @@
       "value": "Password1234"
     },
     "domainName": {
-      "value": "test.com"
+      "value": "prod.com"
     },
     "envName": {
-      "value": "pr-prod"
+      "value": "hg-prod"
     }
     
   }

@@ -36,7 +36,7 @@
       "vmNSGName": "[concat(parameters('envName'),'-nsg-01')]",
       "VMDscName": "CreateADPDC",
       "VmDscArchive": "[parameters('DSC_domain_1_URL')]",
-      "VmDscScript": "createadpdc.ps1",
+      "VmDscScript": "createadpdc.ps1",//
       "VmDscFunction": "\\CreateADPDC",
       "vmNSGId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/networkSecurityGroups/MSFT-nsg-01",
       "vmPIPName": "[concat(parameters('envName'),'-pip-01')]",

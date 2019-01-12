@@ -33,7 +33,7 @@
     <None Include="templates\virtualNetwork.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DSC\" />
+    <Folder Include="DSC\adDSC\" />
     <Folder Include="scripts\" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />

@@ -30,10 +30,10 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="DSC\domain_build.zip" />
     <None Include="templates\virtualNetwork.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DSC\adDSC\" />
     <Folder Include="scripts\" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />

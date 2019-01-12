@@ -25,18 +25,27 @@
       "metadata": {
         "description": "Please provide your windows user's password. It shoudl be different Administrator: Mike!s201"
       }
+    },
+    "DSC_domain_1_URL": {
+      "type": "string"
     }
   },
   "variables": {
-    "vmNicName": "[concat(parameters('envName'),'-nic-01')]",
-    "vmNSGName": "[concat(parameters('envName'),'-nsg-01')]",
-    "vmNSGId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/networkSecurityGroups/MSFT-nsg-01",
-    "vmPIPName": "[concat(parameters('envName'),'-pip-01')]",
-    "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
-    "virtualNetworkId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01",
-    "virtualNetworkSubnetId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01/subnets/MSFT-Application-Subnet",
-    "vMName": "[concat(parameters('envName'),'-dc-01')]",
-    "resourceLocation": "[resourceGroup().location]"
+    "build_DC01": {
+      "vmNicName": "[concat(parameters('envName'),'-nic-01')]",
+      "vmNSGName": "[concat(parameters('envName'),'-nsg-01')]",
+      "VMDscName": "CreateADPDC",
+      "VmDscArchive": "[parameters('DSC_domain_1_URL')]",
+      "VmDscScript": "createadpdc.ps1",
+      "VmDscFunction": "\\CreateADPDC",
+      "vmNSGId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/networkSecurityGroups/MSFT-nsg-01",
+      "vmPIPName": "[concat(parameters('envName'),'-pip-01')]",
+      "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
+      "virtualNetworkId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01",
+      "virtualNetworkSubnetId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01/subnets/MSFT-Application-Subnet",
+      "vMName": "[concat(parameters('envName'),'-dc-01')]",
+      "resourceLocation": "[resourceGroup().location]"
+    }
 
   },
   "resources": [
@@ -85,7 +94,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2015-06-15"
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('vmNicName')]",
       "location": "[variables('resourceLocation')]",
@@ -111,19 +120,19 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vMName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "apiVersion": "2018-10-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/', variables('vmDiagStorageName'))]",
-        "[resourceId('Microsoft.Network/networkInterfaces/', variables('vmNicName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts/', variables('build_DC01').vmDiagStorageName)]",
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmNicName)]"
       ],
       "properties": {
         "hardwareProfile": {
           "vmSize": "Standard_A2"
         },
         "osProfile": {
-          "computerName": "[variables('vmName')]",
+          "computerName": "[variables('build_DC01').vMName]",
           "adminUsername": "[parameters('userName')]",
           "adminPassword": "[parameters('userPassword')]"
         },
@@ -150,14 +159,14 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('vmNicName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('build_DC01').vmNicName)]"
             }
           ]
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": true,
-            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('vmDiagStorageName'))).primaryEndpoints.blob]"
+            "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('build_DC01').vmDiagStorageName)).primaryEndpoints.blob]"
           }
         }
       }

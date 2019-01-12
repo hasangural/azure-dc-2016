@@ -31,7 +31,9 @@
       <Visible>False</Visible>
     </None>
     <Content Include="DSC\domain_build.zip" />
-    <Content Include="readme.md" />
+    <Content Include="readme.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="templates\virtualNetwork.json" />
   </ItemGroup>
   <ItemGroup>

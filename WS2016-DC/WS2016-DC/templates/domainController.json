@@ -8,6 +8,12 @@
         "description": "Please provide your environment name. It might be like this : Microsoft > msft"
       }
     },
+    "vNETAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
+      }
+    },
     "domainName": {
       "type": "string",
       "metadata": {
@@ -32,20 +38,32 @@
   },
   "variables": {
     "build_DC01": {
-      "vmNicName": "[concat(parameters('envName'),'-nic-01')]",
-      "vmNSGName": "[concat(parameters('envName'),'-nsg-01')]",
+      "vmSize": "Standard_F2s",
+      "vMName": "[concat(parameters('envName'),'-DC-01')]",
+      "vmPIPName": "[concat(parameters('envName'),'-PIP-01')]",
+      "vmNicName": "[concat(parameters('envName'),'-NIC-01')]",
+      "vmNicIP": "[concat(parameters('vNETAddress'), '.4')]",
+      "vmNSGName": "[concat(parameters('envName'),'-NSG-01')]",
       "VMDscName": "CreateADPDC",
       "VmDscArchive": "[parameters('DSC_domain_1_URL')]",
-      "VmDscScript": "createadpdc.ps1",//
+      "VmDscScript": "createadpdc.ps1",
       "VmDscFunction": "\\CreateADPDC",
       "vmNSGId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/networkSecurityGroups/MSFT-nsg-01",
-      "vmPIPName": "[concat(parameters('envName'),'-pip-01')]",
-      "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), '-pip-01'))]",
+      "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), '-PIP-01'))]",
       "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
       "virtualNetworkId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01",
       "virtualNetworkSubnetId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01/subnets/MSFT-Application-Subnet",
-      "vMName": "[concat(parameters('envName'),'-dc-01')]",
       "resourceLocation": "[resourceGroup().location]"
+    },
+    "vNETInfo": {
+      "vNETName": "[concat(parameters('envName'),'-vn-01')]",
+      "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
+      "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
+      "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
+      "vNETSub01": "[concat(parameters('vNETAddress'),'.0/25')]",
+      "vNETSub02": "[concat(parameters('vNETAddress'),'.128/28')]",
+      "resourceLocation": "[resourceGroup().location]"
+
     }
 
   },
@@ -107,7 +125,8 @@
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('build_DC01').vmPIPName)]"
               },
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[variables('build_DC01').vmNicIP]",
               "subnet": {
                 "id": "[variables('build_DC01').virtualNetworkSubnetId]"
               }
@@ -130,7 +149,7 @@
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_A2"
+          "vmSize": "[variables('build_DC01').vmSize]"
         },
         "osProfile": {
           "computerName": "[variables('build_DC01').vMName]",
@@ -204,7 +223,42 @@
           ]
         }
       ]
+    },
+    {
+      "apiVersion": "2018-06-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "Update-VNETDNS",
+      "location": "[variables('vNETInfo').resourceLocation]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vNETInfo').vNETAddress]"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": "[variables('build_DC01').vmNicIP]"
+        },
+        "subnets": [
+          {
+            "name": "[variables('vNETInfo').vNETSub01Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub02Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
+      ]
+
     }
+
   ],
   "outputs": {}
 }

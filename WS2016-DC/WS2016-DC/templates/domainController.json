@@ -149,7 +149,7 @@
           }
         ],
         "networkSecurityGroup": {
-          "id": "[resourceID('Microsoft.Network/networkSecurityGroups/',build_DC01('NSGName'))]"
+          "id": "[variables('build_DC01').vmNSGId]"
         }
       },
       "dependsOn": [

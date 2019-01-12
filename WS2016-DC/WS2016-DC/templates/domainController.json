@@ -228,7 +228,7 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "vmBGInfo",
+      "name": "[concat(variables('build_DC01').vMName,'/BGInfo')]",
       "location": "[variables('build_DC01').resourceLocation]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('build_DC01').VMName)]"

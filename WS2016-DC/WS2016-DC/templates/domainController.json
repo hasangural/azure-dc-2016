@@ -61,7 +61,7 @@
       "properties": {}
     },
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2018-10-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('build_DC01').vmNSGName]",
       "location": "[variables('build_DC01').resourceLocation]",
@@ -94,7 +94,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2018-10-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('build_DC01').vmNicName]",
       "location": "[variables('build_DC01').resourceLocation]",

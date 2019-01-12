@@ -40,7 +40,7 @@
       "VmDscFunction": "\\CreateADPDC",
       "vmNSGId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/networkSecurityGroups/MSFT-nsg-01",
       "vmPIPName": "[concat(parameters('envName'),'-pip-01')]",
-      "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('build_DC01').vmPIPName)]",
+      "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), '-pip-01'))]",
       "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
       "virtualNetworkId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01",
       "virtualNetworkSubnetId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01/subnets/MSFT-Application-Subnet",

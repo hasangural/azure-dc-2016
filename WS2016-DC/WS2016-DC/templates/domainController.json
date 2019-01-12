@@ -160,7 +160,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/', variables('build_DC01').vmDiagStorageName)]",
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmNicName)]",
-        "[resourceId('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmAVName)]"
+        "[resourceId('Microsoft.Compute/availabilitySets/', variables('build_DC01').vmAVName)]"
       ],
       "properties": {
         "availabilitySet": {

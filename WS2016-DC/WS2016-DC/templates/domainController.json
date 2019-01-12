@@ -166,7 +166,40 @@
             "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('build_DC01').vmDiagStorageName)).primaryEndpoints.blob]"
           }
         }
-      }
+      },
+      "resources": [
+        {
+          "type": "extensions",
+          "name": "AD_DSC",
+          "apiVersion": "2016-04-30-preview",
+          "location": "[variables('build_DC01').resourceLocation]",
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.19",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "[parameters('DSC_domain_1_URL')]",
+              "configurationFunction": "[concat(variables('build_DC01').VMDscScript, variables('build_DC01').VMDscFunction)]",
+              "properties": {
+                "domainName": "[parameters('domainName')]",
+                "adminCreds": {
+                  "userName": "[parameters('userName')]",
+                  "password": "PrivateSettingsRef:Admin_Password"
+                }
+              }
+            },
+            "protectedSettings": {
+              "items": {
+                "Admin_Password": "[parameters('userPassword')]"
+              }
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
+          ]
+        }
+      ]
     }
   ],
   "outputs": {}

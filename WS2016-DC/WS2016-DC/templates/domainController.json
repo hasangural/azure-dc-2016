@@ -94,7 +94,7 @@
       }
     },
     {
-      "apiVersion": "2018-10-01",
+      "apiVersion": "2018-01-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('build_DC01').vmNicName]",
       "location": "[variables('build_DC01').resourceLocation]",
@@ -110,9 +110,6 @@
               "subnet": {
                 "id": "[variables('build_DC01').virtualNetworkSubnetId]"
               }
-            },
-            "networkSecurityGroup": {
-              "id": "[variables('build_DC01').vmNSGId]"
             }
           }
         ]

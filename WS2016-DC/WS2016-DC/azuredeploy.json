@@ -39,6 +39,11 @@
     "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates",
     "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
     "domainControllerUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates/domainController.json",
+    "DSC": {
+      "domain_1_build_pdc": {
+        "Link": "[concat(parameters('_artifactsLocation'), '/dsc/domain_1_build_pdc.zip', parameters('_artifactsLocationSasToken'))]"
+      }
+    },
     "resourceLocation": "[resourceGroup().location]"
   },
   "resources": [
@@ -67,7 +72,6 @@
       "type": "Microsoft.Resources/deployments",
       "name": "2_virtualMachine_DC",
       "apiVersion": "2017-05-10",
-      "dependsOn": [],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -83,6 +87,9 @@
           },
           "userPassword": {
             "value": "[parameters('userPassword')]"
+          },
+          "domainName": {
+            "value": "[parameters('domainName')]"
           },
           "domainName": {
             "value": "[parameters('domainName')]"

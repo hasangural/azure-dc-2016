@@ -30,7 +30,7 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
-    <None Include="DSC\domain_build.zip" />
+    <Content Include="DSC\domain_build.zip" />
     <None Include="templates\virtualNetwork.json" />
   </ItemGroup>
   <ItemGroup>

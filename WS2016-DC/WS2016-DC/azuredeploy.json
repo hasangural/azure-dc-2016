@@ -82,6 +82,9 @@
           "envName": {
             "value": "[parameters('envName')]"
           },
+          "vNETAddress": {
+            "value": "[parameters('vNETAddress')]"
+          },
           "userName": {
             "value": "[parameters('userName')]"
           },

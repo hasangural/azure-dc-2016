@@ -223,19 +223,19 @@
           ]
         },
         {
+          "apiVersion": "2015-06-15",
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "apiVersion": "2016-04-30-preview",
-          "name": "BGInfo",
+          "name": "vmBGInfo",
           "location": "[variables('build_DC01').resourceLocation]",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('build_DC01').VMName)]"
+          ],
           "properties": {
             "publisher": "Microsoft.Compute",
             "type": "BGInfo",
             "typeHandlerVersion": "2.1",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "Properties": [
-              ]
-            }
+            "settings": {},
+            "protectedSettings": null
           },
           "dependsOn": [
             "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"

@@ -26,11 +26,12 @@
     <Content Include="templates\domainController.json" />
     <Content Include="azuredeploy.json" />
     <Content Include="azuredeploy.parameters.json" />
+    <None Include="Deploy-AzureResourceGroup.ps1" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <Content Include="Deploy-AzureResourceGroup.ps1" />
     <Content Include="DSC\domain_build.zip" />
+    <Content Include="readme.md" />
     <None Include="templates\virtualNetwork.json" />
   </ItemGroup>
   <ItemGroup>

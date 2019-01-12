@@ -225,7 +225,7 @@
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "apiVersion": "2016-04-30-preview",
-          "name": "[concat(variables('build_DC01').vmName,'/BGInfo')]",
+          "name": "BGInfo",
           "location": "[variables('build_DC01').resourceLocation]",
           "properties": {
             "publisher": "Microsoft.Compute",

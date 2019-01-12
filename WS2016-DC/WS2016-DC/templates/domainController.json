@@ -37,7 +37,7 @@
     }
   },
   "variables": {
-    "vnetID": "[resourceId(concat(resourceGroup().name, '/'),'Microsoft.Network/virtualNetworks/',variables('vNETInfo').vNETName)]",
+    "vnetID": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks/',variables('vNETInfo').vNETName)]",
     "build_DC01": {
       "vmSize": "Standard_F2s",
       "vMName": "[concat(parameters('envName'),'-dc-01')]",
@@ -53,7 +53,7 @@
       "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), '-pip-01'))]",
       "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
       "virtualNetworkId": "[variables('vnetID')]",
-      "virtualNetworkSubnetId": "[concat(variables('vnetID'),'/subnets/',concat(parameters('envName'), 'Outside-Subnet'))]",
+      "virtualNetworkSubnetId": "[concat(variables('vnetID'),'/subnets/',concat(parameters('envName'), '-Application-Subnet'))]",
       "resourceLocation": "[resourceGroup().location]"
     },
     "vNETInfo": {

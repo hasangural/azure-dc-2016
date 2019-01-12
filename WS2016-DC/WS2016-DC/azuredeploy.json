@@ -88,7 +88,10 @@
             "value": "[parameters('domainName')]"
           }
         }
-      }
+      },
+      "dependsOn": [
+        "1_virtualNetwork"
+      ]
     }
   ],
   "outputs": {

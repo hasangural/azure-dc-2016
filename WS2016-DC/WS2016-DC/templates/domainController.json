@@ -35,7 +35,7 @@
     "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
     "virtualNetworkId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01",
     "virtualNetworkSubnetId": "/subscriptions/e8055386-2b08-4238-9749-edd80932c74e/resourceGroups/WS2016-DC/providers/Microsoft.Network/virtualNetworks/MSFT-vn-01/subnets/MSFT-Application-Subnet",
-    "vMName": "[concat(parameters('envName'),'dc-01')]",
+    "vMName": "[concat(parameters('envName'),'-dc-01')]",
     "resourceLocation": "[resourceGroup().location]"
 
   },
@@ -135,12 +135,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat(parameters('envName'),'OsDisk-01')]",
+            "name": "[concat(parameters('envName'),'-OsDisk-01')]",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "[concat(parameters('envName'),'DataDisk-01')]",
+              "name": "[concat(parameters('envName'),'-DataDisk-01')]",
               "diskSizeGB": 10,
               "lun": 0,
               "createOption": "Empty"

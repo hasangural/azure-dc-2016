@@ -12,7 +12,10 @@
       "value": "prod.com"
     },
     "envName": {
-      "value": "hg-prod"
+      "value": "pr-dev"
+    },
+    "vNETAddress": {
+      "value": "192.168.10"
     }
     
   }

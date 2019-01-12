@@ -30,7 +30,9 @@
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <Content Include="DSC\domain_build.zip" />
+    <Content Include="DSC\domain_build.zip">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Content Include="readme.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

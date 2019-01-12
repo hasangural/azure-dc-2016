@@ -40,8 +40,8 @@
     "virtualNetworkUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates/virtualNetwork.json",
     "domainControllerUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/templates/domainController.json",
     "DSC": {
-      "domain_1_build_pdc": {
-        "Link": "[concat(parameters('_artifactsLocation'), '/dsc/domain_1_build_pdc.zip', parameters('_artifactsLocationSasToken'))]"
+      "DSC_domain": {
+        "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/addVNET/WS2016-DC/WS2016-DC/DSC/domain_build.zip"
       }
     },
     "resourceLocation": "[resourceGroup().location]"
@@ -91,8 +91,8 @@
           "domainName": {
             "value": "[parameters('domainName')]"
           },
-          "domainName": {
-            "value": "[parameters('domainName')]"
+          "DSC_domain_1_URL": {
+            "value": "[variables('DSC')['DSC_domain'].Link]"
           }
         }
       },

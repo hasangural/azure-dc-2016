@@ -51,8 +51,8 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('vmDiagStorageName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vmDiagStorageName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "apiVersion": "2018-07-01",
       "sku": {
         "name": "Standard_LRS"
@@ -63,8 +63,8 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('vmNSGName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vmNSGName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "properties": {
         "securityRules": [
           {
@@ -86,32 +86,32 @@
     },
     {
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('vmPIPName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vmPIPName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "apiVersion": "2018-10-01",
       "properties": {
         "publicIPAllocationMethod": "Static"
       }
     },
     {
-      "apiVersion": "2015-06-15"
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('vmNicName')]",
-      "location": "[variables('resourceLocation')]",
+      "name": "[variables('build_DC01').vmNicName]",
+      "location": "[variables('build_DC01').resourceLocation]",
       "properties": {
         "ipConfigurations": [
           {
             "name": "ipConfigDC",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('vmPIPName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('build_DC01').vmPIPName)]"
               },
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
-                "id": "[variables('virtualNetworkSubnetId')]"
+                "id": "[variables('build_DC01').virtualNetworkSubnetId]"
               },
               "networkSecurityGroup": {
-                "id": "[variables('vmNSGId')]"
+                "id": "[variables('build_DC01').vmNSGId]"
               }
             }
           }

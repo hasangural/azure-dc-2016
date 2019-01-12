@@ -1,4 +1,4 @@
-﻿# Windows Server 2016 - Standalone Domain Controller Template
+﻿# Windows Server 2016 - Standalone Domain Controller
  [![Releases](https://img.shields.io/github/release/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/releases)
 [![Issues](https://img.shields.io/github/issues/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/issues)
 

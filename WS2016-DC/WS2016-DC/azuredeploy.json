@@ -37,8 +37,8 @@
   },
   "variables": {
     "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/templates/",
-    "virtualNetworkUrl": "[concat(variables('templateBaseUrl'),'domainController.json')]",
-    "domainControllerUrl": "[concat(variables('templateBaseUrl'),'virtualNetwork.json')]",
+    "virtualNetworkUrl": "[concat(variables('templateBaseUrl'),'virtualNetwork.json')]",
+    "domainControllerUrl": "[concat(variables('templateBaseUrl'),'domainController.json')]",
     "DSC": {
       "DSC_domain": {
         "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/DSC/domain_build.zip"

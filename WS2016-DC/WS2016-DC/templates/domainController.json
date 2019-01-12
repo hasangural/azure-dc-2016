@@ -45,6 +45,7 @@
       "vmNicName": "[concat(parameters('envName'),'-nic-01')]",
       "vmNicIP": "[concat(parameters('vNETAddress'), '.4')]",
       "vmNSGName": "[concat(parameters('envName'),'-nsg-01')]",
+      "vmAVName": "[concat(parameters('envName'),'-av-01')]",
       "VMDscName": "CreateADPDC",
       "VmDscArchive": "[parameters('DSC_domain_1_URL')]",
       "VmDscScript": "createadpdc.ps1",
@@ -78,6 +79,19 @@
       },
       "kind": "Storage",
       "properties": {}
+    },
+    {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[variables('build_DC01').vmAVName]",
+      "apiVersion": "2016-04-30-preview",
+      "location": "[variables('build_DC01').resourceLocation]",
+      "sku": {
+        "name": "Aligned"
+      },
+      "properties": {
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2
+      }
     },
     {
       "apiVersion": "2018-10-01",
@@ -145,9 +159,13 @@
       "apiVersion": "2018-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/', variables('build_DC01').vmDiagStorageName)]",
-        "[resourceId('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmNicName)]"
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmNicName)]",
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmAVName)]"
       ],
       "properties": {
+        "availabilitySet": {
+          "id": "[concat(resourceId('Microsoft.Compute/availabilitySets/', variables('build_DC01').vmAVName))]"
+        },
         "hardwareProfile": {
           "vmSize": "[variables('build_DC01').vmSize]"
         },
@@ -281,5 +299,7 @@
 
     }
   ],
-  "outputs": {}
+  "outputs": {
+
+  }
 }

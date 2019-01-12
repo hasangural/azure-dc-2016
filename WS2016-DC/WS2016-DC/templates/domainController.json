@@ -95,7 +95,7 @@
       }
     },
     {
-      "apiVersion": "2018-01-01",
+      "apiVersion": "2017-11-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('build_DC01').vmNicName]",
       "location": "[variables('build_DC01').resourceLocation]",

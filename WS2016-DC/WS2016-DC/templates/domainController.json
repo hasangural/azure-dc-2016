@@ -116,7 +116,7 @@
         ]
       },
       "dependsOn": [
-        "[variables('build_DC01').vmPIPId"
+        "[variables('build_DC01').vmPIPId]"
       ]
     },
     {

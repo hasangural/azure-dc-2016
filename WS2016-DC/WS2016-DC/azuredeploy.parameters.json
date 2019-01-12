@@ -10,6 +10,9 @@
     },
     "domainName": {
       "value": "test.com"
+    },
+    "envName": {
+      "value": "rbt"
     }
     
   }

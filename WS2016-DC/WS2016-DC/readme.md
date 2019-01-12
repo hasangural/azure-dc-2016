@@ -2,7 +2,7 @@
  [![Releases](https://img.shields.io/github/release/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/releases)
 [![Issues](https://img.shields.io/github/issues/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/issues)
 
-GitHub repository offers test platform who wants to deploy quickly Active Directory Environment which will be placed on Windows Server 2016 OS for Azure deployments. All of the templates in this repository have been developed for who needs this structure. This repository contains just Standalone Active Directory deployment templates that have been tested.
+This repository offers test platform who wants to deploy quickly Active Directory Environment which will be placed on Windows Server 2016 OS for Azure deployments. All of the templates in this repository have been developed for who needs this structure. This repository contains just Standalone Active Directory deployment templates that have been tested.
 
 Description | Link | Visualize
 --- | --- | ---
@@ -40,6 +40,7 @@ New-AzureRmResourceGroup -Name $ResourceGroupName -Location "West Europe" -Force
 
 # --- Deploy infrastructure
 $DeploymentParameters = @{
+    
     envName = "msft"
     vNETAddress = "172.10.0"
     userName = "prAdmin"

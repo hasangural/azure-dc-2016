@@ -1,0 +1,119 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "envName": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your environment name. It might be like this : Microsoft > msft"
+      }
+    },
+    "vNETAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
+      }
+    }
+  },
+  "variables": {
+    "vnetID": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks/',variables('vNETInfo').vNETName)]",
+    "vNETInfo": {
+      "vNETName": "[concat(parameters('envName'),'-vn-01')]",
+      "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
+      "vNETAZSubnetName": "AzureFirewallSubnet",
+      "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
+      "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
+      "vNETAZSubnet": "[concat(parameters('vNETAddress'),'.0/25')]",
+      "vNETSub01": "[concat(parameters('vNETAddress'),'.128/26')]",
+      "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]"
+    },
+    "build_FW01": {
+      "firewallName": "[concat(parameters('envName'),'-fw-01')]",
+      "resourceLocation": "[resourceGroup().location]",
+      "fwPIPName": "[concat(parameters('envName'),'fw-pip-01')]",
+      "virtualNetworkSubnetId": "[concat(variables('vnetID'),'/subnets/',concat(parameters('envName'), 'AzureFirewallSubnet'))]",
+      "fwPublicIpId" : "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), 'fw-pip-01'))]"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('build_FW01').fwPIPName]",
+      "location": "[variables('build_FW01').resourceLocation]",
+      "apiVersion": "2018-10-01",
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      }
+    },
+    {
+      "apiVersion": "2018-06-01",
+      "type": "Microsoft.Network/azureFirewalls",
+      "name": "[variables('build_FW01').firewallName]",
+      "location": "[variables('build_FW01').resourceLocation]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/virtualNetworks/', variables('vNETInfo').vNETName)]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('build_FW01').fwPIPName)]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "fwIpConf",
+            "properties": {
+              "subnet": {
+                "id": "[variables('build_FW01').virtualNetworkSubnetId]"
+              },
+              "InternalPublicIPAddress": {
+                "id": "[variables('build_FW01').fwPublicIpId]"
+              }
+            }
+          }
+        ],
+        "applicationRuleCollections": [
+          {
+            "name": "appRc1",
+            "properties": {
+              "priority": 101,
+              "action": { "type": "Allow" },
+              "rules": [
+                {
+                  "name": "appRule1",
+                  "protocols": [
+                    {
+                      "port": "80",
+                      "protocolType": "http"
+                    },
+                    {
+                      "port": "443",
+                      "protocolType": "https"
+                    }
+                  ],
+                  "targetUrls": [ "*microsoft.com" ]
+                }
+              ]
+            }
+          }
+        ],
+        "networkRuleCollections": [
+          {
+            "name": "netRc1",
+            "properties": {
+              "priority": 200,
+              "action": { "type": "Allow" },
+              "rules": [
+                {
+                  "name": "netRule1",
+                  "protocols": [ "TCP" ],
+                  "sourceAddresses": [ "192.168.2.0/24" ],
+                  "destinationAddresses": [ "*" ],
+                  "destinationPorts": [ "8000-8999" ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

@@ -38,6 +38,7 @@
   "variables": {
     "templateBaseUrl": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/templates/",
     "virtualNetworkUrl": "[concat(variables('templateBaseUrl'),'virtualNetwork.json')]",
+    "azureFirewallUrl": "[concat(variables('templateBaseUrl'),'azurefirewall.json')]",
     "domainControllerUrl": "[concat(variables('templateBaseUrl'),'domainController.json')]",
     "DSC": {
       "DSC_domain": {
@@ -70,7 +71,30 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "2_virtualMachine_DC",
+      "name": "2_AzureFirewall",
+      "apiVersion": "2017-05-10",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('virtualNetworkUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "envName": {
+            "value": "[parameters('envName')]"
+          },
+          "vNETAddress": {
+            "value": "[parameters('vNETAddress')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "1_virtualNetwork"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "3_virtualMachine_DC",
       "apiVersion": "2017-05-10",
       "properties": {
         "mode": "Incremental",

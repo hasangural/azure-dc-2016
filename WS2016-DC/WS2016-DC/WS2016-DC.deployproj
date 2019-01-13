@@ -36,6 +36,7 @@
     <Content Include="readme.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="templates\azurefirewall.json" />
     <None Include="templates\virtualNetwork.json" />
   </ItemGroup>
   <ItemGroup>

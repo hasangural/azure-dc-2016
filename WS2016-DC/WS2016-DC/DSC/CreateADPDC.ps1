@@ -106,7 +106,7 @@
             DependsOn = "[xADDomain]FirstDS"
         }
 
-        inlineScript {
+        SetScript  {
             $WshShell = New-Object -comObject WScript.Shell
 	        $dt="C:\Users\Public\Desktop\"
 	        $ieicon="%ProgramFiles%\Internet Explorer\iexplore.exe, 0"

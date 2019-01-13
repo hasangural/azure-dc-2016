@@ -12,7 +12,7 @@
       "value": "prod.com"
     },
     "envName": {
-      "value": "msft-dev"
+      "value": "msft-prd"
     },
     "vNETAddress": {
       "value": "192.168.10"

@@ -25,7 +25,8 @@
       "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
       "vNETAZSubnet": "[concat(parameters('vNETAddress'),'.0/25')]",
       "vNETSub01": "[concat(parameters('vNETAddress'),'.128/26')]",
-      "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]"
+      "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]",
+      "resourceLocation": "[resourceGroup().location]"
     },
     "build_FW01": {
       "firewallName": "[concat(parameters('envName'),'-fw-01')]",

@@ -42,6 +42,9 @@
       "name": "[variables('build_FW01').fwPIPName]",
       "location": "[variables('build_FW01').resourceLocation]",
       "apiVersion": "2018-10-01",
+      "sku": {
+        "name": "Standard"
+      },
       "properties": {
         "publicIPAllocationMethod": "Static"
       }

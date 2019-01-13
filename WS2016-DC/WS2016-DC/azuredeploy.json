@@ -124,7 +124,8 @@
         }
       },
       "dependsOn": [
-        "1_virtualNetwork"
+        "1_virtualNetwork",
+        "2_AzureFirewall"
       ]
     }
   ],

@@ -281,21 +281,7 @@
           "dnsServers": [
             "[variables('build_DC01').vmNicIP]"
           ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('vNETInfo').vNETSub01Name]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
-            }
-          },
-          {
-            "name": "[variables('vNETInfo').vNETSub02Name]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
-            }
-          }
-        ]
+        }
       },
       "dependsOn": [
         "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"

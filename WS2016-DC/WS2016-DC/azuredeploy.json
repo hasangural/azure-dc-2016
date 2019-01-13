@@ -76,7 +76,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('virtualNetworkUrl')]",
+          "uri": "[variables('azureFirewallUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

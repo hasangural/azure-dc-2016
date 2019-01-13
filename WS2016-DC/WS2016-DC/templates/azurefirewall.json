@@ -52,7 +52,6 @@
       "name": "[variables('build_FW01').firewallName]",
       "location": "[variables('build_FW01').resourceLocation]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('vNETInfo').vNETName)]",
         "[concat('Microsoft.Network/publicIPAddresses/', variables('build_FW01').fwPIPName)]"
       ],
       "properties": {

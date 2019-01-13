@@ -32,7 +32,7 @@
       "firewallName": "[concat(parameters('envName'),'-fw-01')]",
       "resourceLocation": "[resourceGroup().location]",
       "fwPIPName": "[concat(parameters('envName'),'-fw-pip-01')]",
-      "virtualNetworkSubnetId": "[concat(variables('vnetID'),'/subnets/',concat(parameters('envName'), 'AzureFirewallSubnet'))]",
+      "virtualNetworkSubnetId": "[concat(variables('vnetID'),'/subnets/', 'AzureFirewallSubnet')]",
       "fwPublicIpId" : "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), '-fw-pip-01'))]"
     }
   },

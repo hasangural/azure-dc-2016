@@ -1,12 +1,12 @@
-﻿# Cloud Native Resources - Azure Firewall - WS2016 DC
+﻿# Cloud Native Resources - Azure Firewall - Domain Controller
  [![Releases](https://img.shields.io/github/release/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/releases)
 [![Issues](https://img.shields.io/github/issues/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/issues)
 
-This repository offers test platform who wants to deploy quickly Active Directory Environment which will be placed on Windows Server 2016 OS for Azure deployments. All of the templates in this repository have been developed for who needs this structure. This repository contains just Standalone Active Directory deployment templates that have been tested.
+This repository offers test platform who wants to deploy quickly Cloud Native Resources which have Virtual Network, Azure Firewall, Active Directory Environment which will be used for Azure deployments. All of the templates in this repository have been developed for who needs this structure.
 
 Description | Link | Visualize
 --- | --- | ---
-Full deploy - Virtual Network, WS 2016 - New AD Forest  | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> | <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://armviz.io/visualizebutton.png"/></a>
+Full deploy - Virtual Network, AZ Firewall- WS 2016 - New AD Forest  | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> | <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://armviz.io/visualizebutton.png"/></a>
 
  # Deploys the following infrastructure:
 
@@ -20,15 +20,18 @@ Full deploy - Virtual Network, WS 2016 - New AD Forest  | <a href="https://porta
 
 This template allows you to create these resources.
 
+* Virtual Network
+  * 2 subnets: Application, Management
+  * DNS Server : ADDS Server
+* Aznure Firewall Service
+  * Public IP Address
+  * NAT Rule
 * Virtual Machine - ADDS Service
   * Network Security Group 
   * Public Ip Address 
   * Desired State Configuration Extension
   * BGInfo Extension
   * Diagnostic Storage
-* Virtual Network
-  * 2 subnets: Application, Management
-  * DNS Server : ADDS Server
 
 
 Also you can deploy with Powershell. Before you have to login with your Azure Admin Account on the Azure Powershell. However, you can use Azure Cloud Shell.

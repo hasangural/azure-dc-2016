@@ -43,7 +43,7 @@
       "vMName": "[concat(parameters('envName'),'-dc-01')]",
       "vmPIPName": "[concat(parameters('envName'),'-dc-pip-01')]",
       "vmNicName": "[concat(parameters('envName'),'-dc-nic-01')]",
-      "vmNicIP": "[concat(parameters('vNETAddress'), '.4')]",
+      "vmNicIP": "[concat(parameters('vNETAddress'), '.5')]",
       "vmNSGName": "[concat(parameters('envName'),'-dc-nsg-01')]",
       "vmAVName": "[concat(parameters('envName'),'-dc-av-01')]",
       "VMDscName": "CreateADPDC",

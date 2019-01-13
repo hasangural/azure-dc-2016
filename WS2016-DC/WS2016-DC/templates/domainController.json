@@ -51,7 +51,7 @@
       "VmDscScript": "createadpdc.ps1",
       "VmDscFunction": "\\CreateADPDC",
       "vmNSGId": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('envName'), '-nsg-01'))]",
-      "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), '-pip-01'))]",
+      "vmPIPId": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('envName'), 'dc-pip-01'))]",
       "vmDiagStorageName": "[concat(uniquestring(resourceGroup().id), 'diagstr')]",
       "virtualNetworkId": "[variables('vnetID')]",
       "virtualNetworkSubnetId": "[concat(variables('vnetID'),'/subnets/',concat(parameters('envName'), '-Application-Subnet'))]",

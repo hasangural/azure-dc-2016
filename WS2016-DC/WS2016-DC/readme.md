@@ -1,4 +1,4 @@
-﻿# Windows Server 2016 - Standalone Domain Controller
+﻿# Cloud Native Resources - Azure Firewall - WS2016 DC
  [![Releases](https://img.shields.io/github/release/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/releases)
 [![Issues](https://img.shields.io/github/issues/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/issues)
 

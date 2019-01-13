@@ -267,7 +267,7 @@
       ]
     },
     {
-      "apiVersion": "2018-06-01",
+      "apiVersion": "2018-02-01",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('vNETInfo').vNETName]",
       "location": "[variables('vNETInfo').resourceLocation]",
@@ -277,16 +277,27 @@
             "[variables('vNETInfo').vNETAddress]"
           ]
         },
-        "dhcpOptions": {
-          "dnsServers": [
-            "[variables('build_DC01').vmNicIP]"
-          ]
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', variables('build_DC01').VMName)]"
-      ]
-
+        "subnets": [
+          {
+            "name": "[variables('vNETInfo').vNETAZSubnetName]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETAZSubnet]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub01Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub02Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
+            }
+          }
+        ]
+      }
     }
   ],
   "outputs": {

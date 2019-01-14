@@ -14,6 +14,18 @@
         "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
       }
     },
+    "userName": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your windows user name. It shoudl be different Administrator: Mike"
+      }
+    },
+    "userPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Please provide your windows user's password. It shoudl be different Administrator: Mike!s201"
+      }
+    },
     "DSC_hyperv_1_URL": {
       "type": "string"
     }

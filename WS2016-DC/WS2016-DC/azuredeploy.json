@@ -159,7 +159,7 @@
             "value": "[parameters('domainName')]"
           },
           "DSC_hyperv_URL": {
-            "value": "[variables('DSC')['DSC_domain'].Link]"
+            "value": "[variables('DSC')['DSC_hyperv_URL'].Link]"
           }
         }
       },

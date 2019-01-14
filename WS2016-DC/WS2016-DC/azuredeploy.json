@@ -155,9 +155,6 @@
           "userPassword": {
             "value": "[parameters('userPassword')]"
           },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          },
           "DSC_hyperv_URL": {
             "value": "[variables('DSC')['DSC_hyperv_URL'].Link]"
           }

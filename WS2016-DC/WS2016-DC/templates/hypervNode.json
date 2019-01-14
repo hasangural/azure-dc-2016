@@ -81,7 +81,7 @@
       "properties": {
         "ipConfigurations": [
           {
-            "name": "ipConfigDC",
+            "name": "ipConfigNode",
             "properties": {
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[variables('build_HyperV_Node1').vmNicIP]",
@@ -93,7 +93,7 @@
         ]
       },
       "dependsOn": [
-        "[variables('build_HyperV_Node1').vmPIPId]"
+        
       ]
     }
   ],

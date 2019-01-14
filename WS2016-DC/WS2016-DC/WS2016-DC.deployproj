@@ -37,6 +37,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="templates\azurefirewall.json" />
+    <None Include="templates\hypervNode.json" />
     <None Include="templates\virtualNetwork.json" />
   </ItemGroup>
   <ItemGroup>

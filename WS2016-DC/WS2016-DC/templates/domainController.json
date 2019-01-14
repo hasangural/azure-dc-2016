@@ -47,7 +47,7 @@
       "vmNSGName": "[concat(parameters('envName'),'-dc-nsg-01')]",
       "vmAVName": "[concat(parameters('envName'),'-dc-av-01')]",
       "VMDscName": "CreateADPDC",
-      "VmDscArchive": "[parameters('DSC_domain_1_URL')]",
+      "VmDscArchive": "[parameters('DSC_hyperv_URL')]",
       "VmDscScript": "createadpdc.ps1",
       "VmDscFunction": "\\CreateADPDC",
       "vmNSGId": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('envName'), '-dc-nsg-01'))]",

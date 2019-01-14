@@ -65,6 +65,15 @@
   },
   "resources": [
     {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('build_HyperV_Node1').vmPIPName]",
+      "location": "[variables('build_HyperV_Node1').resourceLocation]",
+      "apiVersion": "2018-10-01",
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      }
+    },
+    {
       "apiVersion": "2017-11-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('build_HyperV_Node1').vmNicName]",

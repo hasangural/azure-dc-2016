@@ -35,6 +35,25 @@
       	    SetScript = {
                 Set-DnsServerDiagnostics -All $true
                 Write-Verbose -Verbose "Enabling DNS client diagnostics"
+                $WshShell = New-Object -comObject WScript.Shell
+	                $dt="C:\Users\Public\Desktop\"
+	                $ieicon="%ProgramFiles%\Internet Explorer\iexplore.exe, 0"
+
+	                $links = @(
+		                @{site="%windir%\system32\WindowsPowerShell\v1.0\PowerShell_ISE.exe";name="PowerShell ISE";icon="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell_ise.exe, 0"},
+		                @{site="%SystemRoot%\system32\dsa.msc";name="AD Users and Computers";icon="%SystemRoot%\system32\dsadmin.dll, 0"},
+		                @{site="%SystemRoot%\system32\domain.msc";name="AD Domains and Trusts";icon="%SystemRoot%\system32\domadmin.dll, 0"},
+		                @{site="%SystemRoot%\system32\dnsmgmt.msc";name="DNS";icon="%SystemRoot%\system32\dnsmgr.dll, 0"},
+		                @{site="%windir%\system32\services.msc";name="Services";icon="%windir%\system32\filemgmt.dll, 0"},
+		                @{site="c:\AADLab";name="AAD Lab Files";icon="%windir%\explorer.exe, 13"}
+	                )
+
+	                foreach($link in $links){
+		                $Shortcut = $WshShell.CreateShortcut("$($dt)$($link.name).lnk")
+		                $Shortcut.TargetPath = $link.site
+		                $Shortcut.IconLocation = $link.icon
+		                $Shortcut.Save()
+                    }
             }
             GetScript =  { @{} }
             TestScript = { $false }
@@ -105,30 +124,6 @@
             Name = "RebootAfterPromotion"
             DependsOn = "[xADDomain]FirstDS"
         }
-
-        SetScript  {
-            $WshShell = New-Object -comObject WScript.Shell
-	        $dt="C:\Users\Public\Desktop\"
-	        $ieicon="%ProgramFiles%\Internet Explorer\iexplore.exe, 0"
-
-	        $links = @(
-		        @{site="%windir%\system32\WindowsPowerShell\v1.0\PowerShell_ISE.exe";name="PowerShell ISE";icon="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell_ise.exe, 0"},
-		        @{site="%SystemRoot%\system32\dsa.msc";name="AD Users and Computers";icon="%SystemRoot%\system32\dsadmin.dll, 0"},
-		        @{site="%SystemRoot%\system32\domain.msc";name="AD Domains and Trusts";icon="%SystemRoot%\system32\domadmin.dll, 0"},
-		        @{site="%SystemRoot%\system32\dnsmgmt.msc";name="DNS";icon="%SystemRoot%\system32\dnsmgr.dll, 0"},
-		        @{site="%windir%\system32\services.msc";name="Services";icon="%windir%\system32\filemgmt.dll, 0"},
-		        @{site="c:\AADLab";name="AAD Lab Files";icon="%windir%\explorer.exe, 13"}
-	        )
-
-	        foreach($link in $links){
-		        $Shortcut = $WshShell.CreateShortcut("$($dt)$($link.name).lnk")
-		        $Shortcut.TargetPath = $link.site
-		        $Shortcut.IconLocation = $link.icon
-		        $Shortcut.Save()
-	        }
-
-        
-        } 
 
    }
 }

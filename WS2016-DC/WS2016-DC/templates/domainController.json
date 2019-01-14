@@ -32,7 +32,7 @@
         "description": "Please provide your windows user's password. It shoudl be different Administrator: Mike!s201"
       }
     },
-    "DSC_domain_1_URL": {
+    "DSC_hyperv_URL": {
       "type": "string"
     }
   },

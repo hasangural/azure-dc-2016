@@ -40,8 +40,12 @@
     "virtualNetworkUrl": "[concat(variables('templateBaseUrl'),'virtualNetwork.json')]",
     "azureFirewallUrl": "[concat(variables('templateBaseUrl'),'azurefirewall.json')]",
     "domainControllerUrl": "[concat(variables('templateBaseUrl'),'domainController.json')]",
+    "hypervNodeUrl": "[concat(variables('templateBaseUrl'),'hypervNode.json')]",
     "DSC": {
       "DSC_domain": {
+        "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/DSC/domain_build.zip"
+      },
+      "DSC_hyperv_URL": {
         "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/DSC/domain_build.zip"
       }
     },
@@ -126,6 +130,44 @@
       "dependsOn": [
         "1_virtualNetwork",
         "2_AzureFirewall"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "4_virtualMachine_hyperVNode",
+      "apiVersion": "2017-05-10",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('hypervNodeUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "envName": {
+            "value": "[parameters('envName')]"
+          },
+          "vNETAddress": {
+            "value": "[parameters('vNETAddress')]"
+          },
+          "userName": {
+            "value": "[parameters('userName')]"
+          },
+          "userPassword": {
+            "value": "[parameters('userPassword')]"
+          },
+          "domainName": {
+            "value": "[parameters('domainName')]"
+          },
+          "DSC_hyperv_URL": {
+            "value": "[variables('DSC')['DSC_domain'].Link]"
+          }
+        }
+      },
+      "dependsOn": [
+        "1_virtualNetwork",
+        "2_AzureFirewall",
+        "3_virtualMachine_DC"
+
       ]
     }
   ],

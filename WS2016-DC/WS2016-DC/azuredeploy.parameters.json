@@ -9,13 +9,13 @@
       "value": "Password1234"
     },
     "domainName": {
-      "value": "prod.com"
+      "value": "msft.com"
     },
     "envName": {
-      "value": "msft-hg"
+      "value": "prd-msft"
     },
     "vNETAddress": {
-      "value": "192.168.10"
+      "value": "192.168.20"
     }
     
   }

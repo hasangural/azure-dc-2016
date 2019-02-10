@@ -1,8 +1,6 @@
-﻿# Cloud Native Resources - Azure Firewall - Domain Cont. - HyperV-Node
- [![Releases](https://img.shields.io/github/release/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/releases)
-[![Issues](https://img.shields.io/github/issues/f5networks/f5-azure-arm-templates.svg)](https://github.com/hasangural/MCA/templates/issues)
+﻿# Cloud Native Resources - Azure Firewall - Domain Controller
 
-This repository offers test platform who wants to deploy quickly Cloud Native Resources which have Virtual Network, Azure Firewall, Active Directory Environment, HyperV-NestedNode which will be used for Azure deployments. All of the templates in this repository have been developed for who needs this structure.
+This repository offers test platform who wants to deploy quickly Cloud Native Resources which have Virtual Network, Azure Firewall, Active Directory Environment which will be used for Azure deployments. All of the templates in this repository have been developed for who needs this structure. This repository has been using for Microsoft Learning Partner in the Microsoft Offical Course.
 
 Description | Link | Visualize
 --- | --- | ---

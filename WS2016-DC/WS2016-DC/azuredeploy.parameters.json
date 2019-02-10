@@ -14,9 +14,9 @@
     "envName": {
       "value": "prd-msft"
     },
-    "vNETAddress": {
+    "VNETAddressSpace": {
       "value": "192.168.25"
     }
-    
+
   }
 }

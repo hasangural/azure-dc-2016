@@ -18,13 +18,13 @@
   "variables": {
     "vNETInfo": {
       "vNETName": "[concat(parameters('envName'),'-vn-01')]",
-      "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
+      "vNETAddress": "[concat(parameters('VNETAddressSpace'),'.0/24')]",
       "vNETAZSubnetName": "AzureFirewallSubnet",
       "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
       "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
-      "vNETAZSubnet": "[concat(parameters('vNETAddress'),'.0/25')]",
-      "vNETSub01": "[concat(parameters('vNETAddress'),'.128/26')]",
-      "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]"
+      "vNETAZSubnet": "[concat(parameters('VNETAddressSpace'),'.0/25')]",
+      "vNETSub01": "[concat(parameters('VNETAddressSpace'),'.128/26')]",
+      "vNETSub02": "[concat(parameters('VNETAddressSpace'),'.192/26')]"
     },
     "resourceLocation": "[resourceGroup().location]"
   },

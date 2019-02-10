@@ -219,7 +219,7 @@
       "resources": [
         {
           "type": "extensions",
-          "name": "AD_DSC",
+          "name": "[variables('build_DC01').VMDscName]",
           "apiVersion": "2016-04-30-preview",
           "location": "[variables('build_DC01').resourceLocation]",
           "properties": {
@@ -295,7 +295,8 @@
         }
       },
       "dependsOn": [
-        
+        "[variables('build_DC01').vmNicName]",
+        "[variables('build_DC01').VMDscName]"
 
       ]
     }

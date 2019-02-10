@@ -67,7 +67,7 @@
           ]
         },
         "dhcpOptions": {
-          "dnsServers": "[parameters('DNSServer')]"
+          "dnsServers": "192.168.25.135"
         },
         "subnets": [
           {

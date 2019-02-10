@@ -4,15 +4,15 @@ This repository offers test platform who wants to deploy quickly Cloud Native Re
 
 Description | Link | Visualize
 --- | --- | ---
-Full deploy - Virtual Network, AZ Firewall- DC - HyperV - New AD Forest  | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> | <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://armviz.io/visualizebutton.png"/></a>
+Full deploy - Virtual Network, AZ Firewall - New AD Forest  | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a> | <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fhasangural%2Fazure-dc-2016%2Fmaster%2FWS2016-DC%2FWS2016-DC%2Fazuredeploy.json" target="_blank"><img src="http://armviz.io/visualizebutton.png"/></a>
 
  # Deploys the following infrastructure:
 
  This template needs parameters which will be used for deployment process.
 
-* envName      : Please provide your environment name. It might be like this : Microsoft > msft
-* vNETAddress  : Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0
-* userName     : Please provide your windows user name. It should be different Administrator: Mike
+* envName      : Please provide your environment name. It might be like this : prd-msft
+* vNETAddress  : Please provide your Virtual Network Address Prefix. It should be like this : 192.168.10
+* userName     : Please provide your windows user name. It should be different Administrator: MikeMSA
 * userPassword : Please provide your windows  password. It should be different Administrator: Mike!s201
 * domainName   : Please provide your domain name. It might be like : msft.com
 
@@ -21,6 +21,7 @@ This template allows you to create these resources.
 * Virtual Network
   * 2 subnets: Application, Management
   * DNS Server : ADDS Server
+  * Route Table to force traffic
 * Aznure Firewall Service
   * Public IP Address
   * NAT Rule

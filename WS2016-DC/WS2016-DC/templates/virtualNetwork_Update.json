@@ -15,7 +15,7 @@
       }
     },
     "DNSServer": {
-      "type": "string"
+      "type": "array"
     }
   },
   "variables": {
@@ -67,9 +67,9 @@
           ]
         },
         "dhcpOptions": {
-          "dnsServers": [
+          "dnsServers": {
             "[parameters('DNSServer')]"
-          ]
+          }
         },
         "subnets": [
           {

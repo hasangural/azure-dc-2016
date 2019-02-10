@@ -288,9 +288,7 @@
             "value": "[parameters('vNETAddress')]"
           },
           "DNSServer": {
-            "value": [
-              "[concat(reference(concat('Microsoft.Network/networkInterfaces/', variables('build_DC01').VMNicName)).ipConfigurations[0].properties.privateIPAddress)]"
-            ]
+            "value": "[concat(reference(concat('Microsoft.Network/networkInterfaces/', variables('build_DC01').vmNicName)).ipConfigurations[0].properties.privateIPAddress)]"
           }
         }
       },

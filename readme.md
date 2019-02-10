@@ -12,7 +12,7 @@ Full deploy - Virtual Network, WS 2016 - New AD Forest  | <a href="https://porta
 
  This template needs parameters which will be used for deployment process.
 
-* envName      : Please provide your environment name. It might be like this : Microsoft > msft
+* envName      : Please provide your environment name. It might be like this : Microsoft > msft.
 * vNETAddress  : Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0
 * userName     : Please provide your windows user name. It should be different Administrator: Mike
 * userPassword : Please provide your windows  password. It should be different Administrator: Mike!s201

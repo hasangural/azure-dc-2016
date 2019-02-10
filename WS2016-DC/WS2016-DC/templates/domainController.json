@@ -8,7 +8,7 @@
         "description": "Please provide your environment name. It might be like this : Microsoft > msft"
       }
     },
-    "vNETAddress": {
+    "VNETAddressSpace": {
       "type": "string",
       "metadata": {
         "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
@@ -46,7 +46,7 @@
       "vMName": "[concat(parameters('envName'),'-dc-01')]",
       "vmPIPName": "[concat(parameters('envName'),'-dc-pip-01')]",
       "vmNicName": "[concat(parameters('envName'),'-dc-nic-01')]",
-      "vmNicIP": "[concat(parameters('vNETAddress'), '.135')]",
+      "vmNicIP": "[concat(parameters('VNETAddressSpace'), '.135')]",
       "vmNSGName": "[concat(parameters('envName'),'-dc-nsg-01')]",
       "vmAVName": "[concat(parameters('envName'),'-dc-av-01')]",
       "VMDscName": "CreateADPDC",
@@ -285,7 +285,7 @@
             "value": "[parameters('envName')]"
           },
           "vNETAddress": {
-            "value": "[parameters('vNETAddress')]"
+            "value": "[parameters('VNETAddressSpace')]"
           },
           "DNSServers": {
             "value": [

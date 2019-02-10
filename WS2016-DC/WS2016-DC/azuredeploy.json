@@ -94,7 +94,7 @@
         }
       },
       "dependsOn": [
-        "1_virtualNetwork"
+        "1_Deploy_VirtualNetwork"
       ]
     },
     {
@@ -134,42 +134,6 @@
       "dependsOn": [
         "1_Deploy_VirtualNetwork",
         "2_Deploy_AzureFirewall"
-      ]
-    },
-     {
-      "type": "Microsoft.Resources/deployments",
-      "name": "4_virtualMachine_hyperVNode",
-      "apiVersion": "2017-05-10",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('hypervNodeUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-
-          "envName": {
-            "value": "[parameters('envName')]"
-          },
-          "vNETAddress": {
-            "value": "[parameters('vNETAddress')]"
-          },
-          "userName": {
-            "value": "[parameters('userName')]"
-          },
-          "userPassword": {
-            "value": "[parameters('userPassword')]"
-          },
-          "DSC_hyperv_URL": {
-            "value": "[variables('DSC')['DSC_hyperv_URL'].Link]"
-          }
-        }
-      },
-      "dependsOn": [
-        "1_virtualNetwork",
-        "2_AzureFirewall",
-        "3_virtualMachine_DC"
-
       ]
     }
   ],

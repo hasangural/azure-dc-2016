@@ -281,13 +281,13 @@
           "uri": "[parameters('virtualNetwork_Update_URL')]"
         },
         "parameters": {
-          "Env_Prefix": {
+          "envName": {
             "value": "[parameters('envName')]"
           },
-          "IPAddress_Space": {
+          "vNETAddress": {
             "value": "[parameters('vNETAddress')]"
           },
-          "DNSServers": {
+          "DNSServer": {
             "value": [
               "[concat(reference(concat('Microsoft.Network/networkInterfaces/', variables('build_DC01').VMNicName)).ipConfigurations[0].properties.privateIPAddress)]"
             ]

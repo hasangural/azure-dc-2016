@@ -14,7 +14,7 @@
         "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
       }
     },
-    "DNSServer": {
+    "DNSServers": {
       "type": "array"
     }
   },
@@ -67,7 +67,7 @@
           ]
         },
         "dhcpOptions": {
-          "dnsServers": "[parameters('DNSServer')]"
+          "dnsServers": "[parameters('DNSServers')]"
         },
         "subnets": [
           {

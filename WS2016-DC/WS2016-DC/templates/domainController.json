@@ -70,7 +70,7 @@
       "vNETSub01": "[concat(parameters('vNETAddress'),'.128/26')]",
       "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]",
       "resourceLocation": "[resourceGroup().location]",
-      "resourceGroup" : "[resourceGroup().name]"
+      "resourceGroup": "[resourceGroup().name]"
     }
   },
   "resources": [
@@ -287,9 +287,9 @@
           "vNETAddress": {
             "value": "[parameters('vNETAddress')]"
           },
-          "DNSServer": {
+          "DNSServers": {
             "value": [
-              "[variables('build_DC01').vmNicIP]"
+              "[concat(variables('build_DC01').vmNicIP)]"
             ]
           }
         }

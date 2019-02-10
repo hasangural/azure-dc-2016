@@ -34,6 +34,9 @@
     },
     "DSC_domain_1_URL": {
       "type": "string"
+    },
+    "virtualNetwork_Update_URL": {
+      "type": "string"
     }
   },
   "variables": {
@@ -66,7 +69,8 @@
       "vNETAZSubnet": "[concat(parameters('vNETAddress'),'.0/25')]",
       "vNETSub01": "[concat(parameters('vNETAddress'),'.128/26')]",
       "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]",
-      "resourceLocation": "[resourceGroup().location]"
+      "resourceLocation": "[resourceGroup().location]",
+      "resourceGroup" : "[resourceGroup().name]"
     }
   },
   "resources": [
@@ -267,37 +271,33 @@
       ]
     },
     {
-      "apiVersion": "2018-02-01",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('vNETInfo').vNETName]",
-      "location": "[variables('vNETInfo').resourceLocation]",
+      "type": "Microsoft.Resources/deployments",
+      "name": "1_UpdateVNetDNS",
+      "apiVersion": "2017-08-01",
+      "resourceGroup": "[variables('vNETInfo').resourceGroup]",
       "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('vNETInfo').vNETAddress]"
-          ]
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[parameters('virtualNetwork_Update_URL')]"
         },
-        "subnets": [
-          {
-            "name": "[variables('vNETInfo').vNETAZSubnetName]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETAZSubnet]"
-            }
+        "parameters": {
+          "Env_Prefix": {
+            "value": "[parameters('envName')]"
           },
-          {
-            "name": "[variables('vNETInfo').vNETSub01Name]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
-            }
+          "IPAddress_Space": {
+            "value": "[parameters('vNETAddress')]"
           },
-          {
-            "name": "[variables('vNETInfo').vNETSub02Name]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
-            }
+          "DNSServers": {
+            "value": [
+              "[concat(reference(concat('Microsoft.Network/networkInterfaces/', variables('build_DC01').VMNicName)).ipConfigurations[0].properties.privateIPAddress)]"
+            ]
           }
-        ]
-      }
+        }
+      },
+      "dependsOn": [
+        "[variables('build_DC01').VMDscName]"
+
+      ]
     }
   ],
   "outputs": {

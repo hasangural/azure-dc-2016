@@ -1,0 +1,104 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "envName": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your environment name. It might be like this : Microsoft > msft"
+      }
+    },
+    "vNETAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
+      }
+    },
+    "DNSServer": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "vNETInfo": {
+      "vNETName": "[concat(parameters('envName'),'-vn-01')]",
+      "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
+      "vNETAZSubnetName": "AzureFirewallSubnet",
+      "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
+      "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
+      "vNETAZSubnet": "[concat(parameters('vNETAddress'),'.0/25')]",
+      "vNETSub01": "[concat(parameters('vNETAddress'),'.128/26')]",
+      "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]"
+    },
+    "routeTable": {
+      "tableName": "[concat(parameters('envName'),'-rt-01')]",
+      "nextHop": "[concat(parameters('vNETAddress'),'.4')]"
+
+    },
+    "resourceLocation": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2018-02-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('vNETInfo').vNETName]",
+      "location": "[variables('resourceLocation')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vNETInfo').vNETAddress]"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": "[parameters('DNSServer')]"
+        },
+        "subnets": [
+          {
+            "name": "[variables('vNETInfo').vNETAZSubnetName]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETAZSubnet]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub01Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub02Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/routeTables",
+      "name": "[variables('routeTable').tableName]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "routes": [
+          {
+            "name": "RouteToBackEnd",
+            "properties": {
+              "addressPrefix": "0.0.0.0/0",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('routeTable').nextHop]"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[variables('vNETInfo').vNETName]"
+      ]
+    }
+  ],
+  "outputs": {
+    "vnet01subnet01": {
+      "type": "string",
+      "value": "[variables('vNETInfo').vNETSub01]"
+    }
+  }
+}

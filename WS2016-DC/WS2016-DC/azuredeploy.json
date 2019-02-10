@@ -108,7 +108,7 @@
           "envName": {
             "value": "[parameters('envName')]"
           },
-          "vNETAddress": {
+          "VNETAddressSpace": {
             "value": "[parameters('VNETAddressSpace')]"
           },
           "userName": {

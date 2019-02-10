@@ -9,7 +9,7 @@
         "description": "Please provide your environment name. It might be like this : Microsoft > msft"
       }
     },
-    "vNETAddress": {
+    "VNETAddressSpace": {
       "defaultValue": "172.10.0",
       "type": "string",
       "metadata": {
@@ -65,8 +65,8 @@
           "envName": {
             "value": "[parameters('envName')]"
           },
-          "vNETAddress": {
-            "value": "[parameters('vNETAddress')]"
+          "VNETAddressSpace": {
+            "value": "[parameters('VNETAddressSpace')]"
           }
         }
       }
@@ -86,7 +86,7 @@
             "value": "[parameters('envName')]"
           },
           "vNETAddress": {
-            "value": "[parameters('vNETAddress')]"
+            "value": "[parameters('VNETAddressSpace')]"
           }
         }
       },
@@ -109,7 +109,7 @@
             "value": "[parameters('envName')]"
           },
           "vNETAddress": {
-            "value": "[parameters('vNETAddress')]"
+            "value": "[parameters('VNETAddressSpace')]"
           },
           "userName": {
             "value": "[parameters('userName')]"

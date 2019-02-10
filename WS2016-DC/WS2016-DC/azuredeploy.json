@@ -54,7 +54,7 @@
   "resources": [
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "1_virtualNetwork",
+      "name": "1_Deploy_VirtualNetwork",
       "apiVersion": "2017-05-10",
       "dependsOn": [],
       "properties": {
@@ -75,7 +75,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "2_AzureFirewall",
+      "name": "2_Deploy_AzureFirewall",
       "apiVersion": "2017-05-10",
       "properties": {
         "mode": "Incremental",
@@ -98,7 +98,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "3_virtualMachine_DC",
+      "name": "3_Deploy_VirtualMachine_DC",
       "apiVersion": "2017-05-10",
       "properties": {
         "mode": "Incremental",
@@ -132,7 +132,7 @@
         "2_AzureFirewall"
       ]
     },
-    {
+     {
       "type": "Microsoft.Resources/deployments",
       "name": "4_virtualMachine_hyperVNode",
       "apiVersion": "2017-05-10",
@@ -143,6 +143,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
+
           "envName": {
             "value": "[parameters('envName')]"
           },

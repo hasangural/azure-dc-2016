@@ -1,0 +1,169 @@
+{
+    "properties": {
+        "template": {
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "envName": {
+        "type": "string",
+        "metadata": {
+          "description": "Please provide your environment name. It might be like this : Microsoft > msft"
+        }
+      },
+      "vNETAddress": {
+        "type": "string",
+        "metadata": {
+          "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "
+        }
+      }
+    },
+    "variables": {
+      "vNETInfo": {
+        "vNETName": "[concat(parameters('envName'),'-vn-01')]",
+        "vNETAddress": "[concat(parameters('vNETAddress'),'.0/24')]",
+        "vNETAZSubnetName": "AzureFirewallSubnet",
+        "vNETSub01Name": "[concat(parameters('envName'),'-Application-Subnet')]",
+        "vNETSub02Name": "[concat(parameters('envName'),'-Mangement-Subnet')]",
+        "vNETAZSubnet": "[concat(parameters('vNETAddress'),'.0/25')]",
+        "vNETSub01": "[concat(parameters('vNETAddress'),'.128/26')]",
+        "vNETSub02": "[concat(parameters('vNETAddress'),'.192/26')]",
+        "resourceLocation": "[resourceGroup().location]"
+      },
+      "PeerArray": [
+        {
+          "Source_vNETName": "[concat(parameters('envName'),'-vn-01')]",
+          "Source_RGName": "[resourceGroup().name]",
+          "Source_SubsId": "[subscription().subscriptionId]"
+        }
+      ],
+      "CNA_vNETInfo": {
+        "Dest_vNETName": "ssp-prod-vn",
+        "Dest_SubsId": "ce28575a-08de-45e3-8f51-a0bd6fcc12a8",
+        "Dest_RGName": "ssp-prod-nva"
+      }
+    },
+    "resources": [
+      {
+        "apiVersion": "2018-02-01",
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[variables('vNETInfo').vNETName]",
+        "location": "[variables('vNETInfo').resourceLocation]",
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "[variables('vNETInfo').vNETAddress]"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "[variables('vNETInfo').vNETAZSubnetName]",
+              "properties": {
+                "addressPrefix": "[variables('vNETInfo').vNETAZSubnet]"
+              }
+            },
+            {
+              "name": "[variables('vNETInfo').vNETSub01Name]",
+              "properties": {
+                "addressPrefix": "[variables('vNETInfo').vNETSub01]"
+              }
+            },
+            {
+              "name": "[variables('vNETInfo').vNETSub02Name]",
+              "properties": {
+                "addressPrefix": "[variables('vNETInfo').vNETSub02]"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "apiVersion": "2017-05-10",
+        "name": "[concat('Peer-',variables('PeerArray')[copyIndex()].Source_vNETName, '-to-', variables('CNA_vNETInfo').Dest_vNETName)]",
+        "type": "Microsoft.Resources/deployments",
+        "subscriptionId": "[variables('PeerArray')[copyIndex('Vnets')].Source_SubsId]",
+        "resourceGroup": "[variables('PeerArray')[copyIndex('Vnets')].Source_RGName]",
+        "copy": {
+          "name": "Vnets",
+          "count": "[length(variables('PeerArray'))]"
+        },
+        "properties": {
+          "mode": "Incremental",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+            "contentVersion": "1.0.0.0",
+            "variables": {},
+            "resources": [
+              {
+                "apiVersion": "2017-10-01",
+                "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                "name": "[concat(variables('PeerArray')[copyIndex()].Source_vNETName, '/Peered-to-', variables('CNA_vNETInfo').Dest_vNETName)]",
+                "location": "[variables('PeerArray')[copyIndex()].Source_RGName]",
+                "properties": {
+                  "allowVirtualNetworkAccess": true,
+                  "allowForwardedTraffic": true,
+                  "allowGatewayTransit": false,
+                  "useRemoteGateways": false,
+                  "remoteVirtualNetwork": {
+                    "id": "[resourceId(variables('CNA_vNETInfo').Dest_SubsId, variables('CNA_vNETInfo').Dest_RGName,'Microsoft.Network/virtualNetworks', variables('CNA_vNETInfo').Dest_vNETName)]"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "dependsOn": [
+          "[variables('vNETInfo').vNETName]"
+        ]
+      },
+      {
+        "apiVersion": "2017-05-10",
+        "name": "[concat('Peer-',variables('CNA_vNETInfo').Dest_vNETName, '-to-', variables('PeerArray')[copyIndex()].Source_vNETName)]",
+        "type": "Microsoft.Resources/deployments",
+        "subscriptionId": "[variables('CNA_vNETInfo').Dest_SubsId]",
+        "resourceGroup": "[variables('CNA_vNETInfo').Dest_RGName]",
+        "copy": {
+          "name": "Vnets",
+          "count": "[length(variables('PeerArray'))]"
+        },
+        "properties": {
+          "mode": "Incremental",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+            "contentVersion": "1.0.0.0",
+            "variables": {},
+            "resources": [
+              {
+                "apiVersion": "2017-10-01",
+                "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                "name": "[concat(variables('CNA_vNETInfo').Dest_vNETName, '/Peered-to-', variables('PeerArray')[copyIndex()].Source_vNETName)]",
+                "location": "[variables('CNA_vNETInfo').Dest_RGName]",
+                "properties": {
+                  "allowVirtualNetworkAccess": true,
+                  "allowForwardedTraffic": true,
+                  "allowGatewayTransit": false,
+                  "useRemoteGateways": false,
+                  "remoteVirtualNetwork": {
+                    "id": "[resourceId(variables('PeerArray')[copyIndex()].Source_SubsId, variables('PeerArray')[copyIndex()].Source_RGName,'Microsoft.Network/virtualNetworks', variables('PeerArray')[copyIndex()].Source_vNETName)]"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "outputs": {
+    }
+  },
+  "mode": "Incremental",
+        "parameters": {
+            "envName": {
+            "value": "dh-prd"
+            },
+            "vNETAddress": {
+            "value": "192.168.30"
+            }
+        }
+    }
+}
+  

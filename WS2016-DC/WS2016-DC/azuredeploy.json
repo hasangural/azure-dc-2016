@@ -45,9 +45,6 @@
     "DSC": {
       "DSC_domain": {
         "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/DSC/domain_build.zip"
-      },
-      "DSC_hyperv_URL": {
-        "Link": "https://raw.githubusercontent.com/hasangural/azure-dc-2016/UpdateMerge/WS2016-DC/WS2016-DC/DSC/domain_build.zip"
       }
     },
     "resourceLocation": "[resourceGroup().location]"

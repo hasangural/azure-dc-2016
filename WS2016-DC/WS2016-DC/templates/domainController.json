@@ -190,12 +190,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat(parameters('envName'),'dc-osdisk-01')]",
+            "name": "[concat(parameters('envName'),'-dc-osdisk-01')]",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "[concat(parameters('envName'),'dc-datadisk-01')]",
+              "name": "[concat(parameters('envName'),'-dc-datadisk-01')]",
               "diskSizeGB": 10,
               "lun": 0,
               "createOption": "Empty"

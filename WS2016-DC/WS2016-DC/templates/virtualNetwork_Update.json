@@ -38,44 +38,6 @@
   },
   "resources": [
     {
-      "apiVersion": "2018-02-01",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('vNETInfo').vNETName]",
-      "location": "[variables('resourceLocation')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('vNETInfo').vNETAddress]"
-          ]
-        },
-        "dhcpOptions": {
-          "dnsServers": [
-            "[parameters('DNSServer')]" 
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('vNETInfo').vNETAZSubnetName]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETAZSubnet]"
-            }
-          },
-          {
-            "name": "[variables('vNETInfo').vNETSub01Name]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETSub01]"
-            }
-          },
-          {
-            "name": "[variables('vNETInfo').vNETSub02Name]",
-            "properties": {
-              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
-            }
-          }
-        ]
-      }
-    },
-    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/routeTables",
       "name": "[variables('routeTable').tableName]",
@@ -91,9 +53,50 @@
             }
           }
         ]
+      }
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('vNETInfo').vNETName]",
+      "location": "[variables('resourceLocation')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vNETInfo').vNETAddress]"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": [
+            "[parameters('DNSServer')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('vNETInfo').vNETAZSubnetName]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETAZSubnet]"
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub01Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub01]",
+              "routeTable": {
+                "id": "[resourceId('Microsoft.Network/routeTables', concat(variables('routeTable').tableName))]"
+              }
+            }
+          },
+          {
+            "name": "[variables('vNETInfo').vNETSub02Name]",
+            "properties": {
+              "addressPrefix": "[variables('vNETInfo').vNETSub02]"
+            }
+          }
+        ]
       },
       "dependsOn": [
-        "[variables('vNETInfo').vNETName]"
+        "[variables('routeTable').tableName]"
       ]
     }
   ],

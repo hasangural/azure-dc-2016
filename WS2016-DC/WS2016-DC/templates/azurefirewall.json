@@ -8,7 +8,7 @@
         "description": "Please provide your environment name. It might be like this : Microsoft > msft"
       }
     },
-    "vNETAddress": {
+    "VNETAddressSpace": {
       "type": "string",
       "metadata": {
         "description": "Please provide your Virtual Network Address Prefix. It should be like this : 192.168.0 "

@@ -287,7 +287,6 @@
           "vNETAddress": {
             "value": "[parameters('vNETAddress')]"
           },
-
           "DNSServer": {
             "value": "[variables('build_DC01').vmNicIP]"
           }
